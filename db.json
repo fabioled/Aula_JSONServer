@@ -1,20 +1,12 @@
 {
   "jogos": [
     {
-      "id": "4d84",
-      "name": "teste"
-    },
-    {
       "id": "0d6c",
       "name": "nier"
     },
     {
-      "id": "08fd",
-      "name": "teste"
-    },
-    {
-      "id": "98a0",
-      "name": "oi"
+      "id": "ec18",
+      "name": "Street"
     }
   ]
 }

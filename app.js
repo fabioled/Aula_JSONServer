@@ -26,17 +26,15 @@ function addJogoLista(jogo) {
     const listaJogos = document.getElementById('listaJogos');
     const li = document.createElement('li');
     li.textContent = jogo.name;
-    listaJogos.appendChild(li);
-    console.log(li);
-
+    listaJogos.appendChild(li);  
 }
 
 //carregar os jogos do arquivo json existentes
 window.onload = function () {
     fetch('httP://localhost:3000/jogos')
         .then(response => response.json())
-        .then(jogo => {
-            jogo.forEach(jogo => addJogoLista(jogo));
+        .then(jogos => {
+            jogos.forEach(jogo => addJogoLista(jogo));
         });
 
 };
