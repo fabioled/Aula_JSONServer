@@ -1,39 +1,42 @@
-document.getElementById('btnAddJogo').addEventListener('click', function(){
+document.getElementById('btnAddJogo').addEventListener('click', function () {
     //declarções de constantes com os Ids de elementos
     const cadastraJogo = document.getElementById('cadastraJogo');
-    const listaJogos = document.getElementById('listaJogos');
-    const jogo = cadastraJogo.value; 
+    const jogo = cadastraJogo.value;
 
-    if (jogo.trim() !== " ") {
-        const li = document.createElement('li');
-        li.textContent = jogo;
-        listaJogos.appendChild(li);
-        //salvar no localstorage
-        salvaJogos();
-        //limpar campo de entrada
-        cadastraJogo.value = "";
+    if (jogo.trim() !== "") {
+        //enviar itens para o  JSONServer
+
+        fetch('http://localhost:3000/jogos', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ name: jogo })
+        }).then(reponse => reponse.json())
+            .then(jogo => {
+                addJogoLista(jogo);
+                cadastraJogo.value = ""; //limpando o campo de entrada
+            })
+
     }
-
-    function carregarJogos(){
-        const jogos = JSON.parse(localStorage.getItem('jogos') || []);
-        const listaJogos = document.getElementById('listaJogos');
-
-        jogos.forEach(jogos => {
-            const li = document.createElement('li');
-            li.textContent = jogos;
-            listaJogos.appendChild(li);
-        });
-    }
-
-    function salvaJogos(){
-        const listaJogos = document.getElementById('listaJogos');
-        let jogos = [];
-
-        for (let i = 0; i < listaJogos.children.length; i++){
-            jogos.push(listaJogos.children[i].textContent);
-        }
-
-        localStorage.setItem('jogos', JSON.stringify(jogos));
-    }
-
 });
+
+//adicionando elementos na lista
+function addJogoLista(jogo) {
+    const listaJogos = document.getElementById('listaJogos');
+    const li = document.createElement('li');
+    li.textContent = jogo.name;
+    listaJogos.appendChild(li);
+    console.log(li);
+
+}
+
+//carregar os jogos do arquivo json existentes
+window.onload = function () {
+    fetch('httP://localhost:3000/jogos')
+        .then(response => response.json())
+        .then(jogo => {
+            jogo.forEach(jogo => addJogoLista(jogo));
+        });
+
+};
