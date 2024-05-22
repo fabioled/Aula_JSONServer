@@ -26,7 +26,26 @@ function addJogoLista(jogo) {
     const listaJogos = document.getElementById('listaJogos');
     const li = document.createElement('li');
     li.textContent = jogo.name;
+
+    //Criando botão de DELETAR
+    const btnDelJogo = document.createElement('button');
+    btnDelJogo.textContent = 'Deletar';
+    btnDelJogo.onclick = function() {
+        deletarJogo(jogo.id, li);   
+    }
+    li.appendChild(btnDelJogo);
     listaJogos.appendChild(li);  
+}
+
+//função de Deletar
+function deletarJogo(jogoId, listaJogos) {
+    fetch(`http://localhost:3000/jogos/${jogoId}`, {
+        method: 'DELETE'
+    }).then(response => {
+        if (response.ok) {
+            listaJogos.remove(); //remove jogo da lista
+        }   
+    });
 }
 
 //carregar os jogos do arquivo json existentes
